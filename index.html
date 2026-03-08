@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Zamanlayıcı - Verimli Çalışma için Teknik</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-tomato"></i> Pomodoro Zamanlayıcı</h1>
+                <p>Verimli çalışma ve odak tekniği</p>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Sol Panel - Timer -->
+            <div class="left-panel">
+                <div class="timer-card">
+                    <div class="session-label" id="sessionLabel">Çalışma Zamanı</div>
+                    <div class="timer-circle">
+                        <svg viewBox="0 0 200 200">
+                            <circle cx="100" cy="100" r="95" class="circle-background"/>
+                            <circle cx="100" cy="100" r="95" class="circle-progress" id="circleProgress"/>
+                        </svg>
+                        <div class="timer-display">
+                            <div class="time" id="time">25:00</div>
+                            <div class="time-label">Dakika</div>
+                        </div>
+                    </div>
+
+                    <div class="timer-controls">
+                        <button id="startBtn" class="btn btn-large btn-play">
+                            <i class="fas fa-play"></i> Başla
+                        </button>
+                        <button id="pauseBtn" class="btn btn-large btn-pause" style="display: none;">
+                            <i class="fas fa-pause"></i> Duraklat
+                        </button>
+                        <button id="skipBtn" class="btn btn-secondary">
+                            <i class="fas fa-forward"></i> Atla
+                        </button>
+                        <button id="resetBtn" class="btn btn-secondary">
+                            <i class="fas fa-redo"></i> Sıfırla
+                        </button>
+                    </div>
+
+                    <!-- Ayarlar -->
+                    <div class="settings-section">
+                        <h3><i class="fas fa-sliders-h"></i> Ayarlar</h3>
+                        <div class="settings-grid">
+                            <div class="setting-item">
+                                <label>Çalışma (dk)</label>
+                                <div class="input-group">
+                                    <button class="btn-adjust" id="workMinus">−</button>
+                                    <input type="number" id="workDuration" min="1" max="60" value="25">
+                                    <button class="btn-adjust" id="workPlus">+</button>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <label>Mola (dk)</label>
+                                <div class="input-group">
+                                    <button class="btn-adjust" id="breakMinus">−</button>
+                                    <input type="number" id="breakDuration" min="1" max="30" value="5">
+                                    <button class="btn-adjust" id="breakPlus">+</button>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <label>Uzun Mola (dk)</label>
+                                <div class="input-group">
+                                    <button class="btn-adjust" id="longBreakMinus">−</button>
+                                    <input type="number" id="longBreakDuration" min="1" max="60" value="15">
+                                    <button class="btn-adjust" id="longBreakPlus">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sağ Panel - Görevler ve İstatistikler -->
+            <div class="right-panel">
+                <!-- Görev Listesi -->
+                <div class="tasks-card">
+                    <h3><i class="fas fa-tasks"></i> Görevler</h3>
+                    <div class="task-input-group">
+                        <input type="text" id="taskInput" placeholder="Yapılacak görev ekle..." class="task-input">
+                        <button id="addTaskBtn" class="btn btn-add">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <ul class="tasks-list" id="tasksList"></ul>
+                </div>
+
+                <!-- İstatistikler -->
+                <div class="stats-card">
+                    <h3><i class="fas fa-chart-bar"></i> Bugünkü İstatistikler</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-icon">🍅</div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="completedToday">0</div>
+                                <div class="stat-label">Pomodoro</div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon">⏱️</div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="totalWorkTime">0h</div>
+                                <div class="stat-label">Çalışma</div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon">☕</div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="totalBreakTime">0h</div>
+                                <div class="stat-label">Mola</div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon">🔥</div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="streak">0</div>
+                                <div class="stat-label">Seri</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Haftalık Özet -->
+                <div class="weekly-card">
+                    <h3><i class="fas fa-calendar"></i> Haftalık Özet</h3>
+                    <div class="weekly-bars">
+                        <div class="day-bar">
+                            <div class="bar-label">Pzt</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="height: 60%;"></div>
+                            </div>
+                        </div>
+                        <div class="day-bar">
+                            <div class="bar-label">Sal</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="height: 75%;"></div>
+                            </div>
+                        </div>
+                        <div class="day-bar">
+                            <div class="bar-label">Çar</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="height: 45%;"></div>
+                            </div>
+                        </div>
+                        <div class="day-bar">
+                            <div class="bar-label">Perş</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="height: 90%;"></div>
+                            </div>
+                        </div>
+                        <div class="day-bar">
+                            <div class="bar-label">Cum</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="height: 55%;"></div>
+                            </div>
+                        </div>
+                        <div class="day-bar">
+                            <div class="bar-label">Cmt</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="height: 70%;"></div>
+                            </div>
+                        </div>
+                        <div class="day-bar">
+                            <div class="bar-label">Paz</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="height: 40%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="notificationSound">
+        <source src="data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAAB9AAACABAAZGF0YQIAAAAAAA==" type="audio/wav">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -9,6 +9,7 @@
 </head>
 <body>
     <div class="container">
+        <!-- Header -->
         <header class="header">
             <div class="header-content">
                 <h1><i class="fas fa-tomato"></i> Pomodoro Zamanlayıcı</h1>
@@ -17,6 +18,7 @@
         </header>
 
         <div class="main-content">
+            <!-- Sol Panel - Timer -->
             <div class="left-panel">
                 <div class="timer-card">
                     <div class="session-label" id="sessionLabel">Çalışma Zamanı</div>
@@ -30,12 +32,23 @@
                             <div class="time-label">Dakika</div>
                         </div>
                     </div>
+
                     <div class="timer-controls">
-                        <button id="startBtn" class="btn btn-large btn-play"><i class="fas fa-play"></i> Başla</button>
-                        <button id="pauseBtn" class="btn btn-large btn-pause" style="display: none;"><i class="fas fa-pause"></i> Duraklat</button>
-                        <button id="skipBtn" class="btn btn-secondary"><i class="fas fa-forward"></i> Atla</button>
-                        <button id="resetBtn" class="btn btn-secondary"><i class="fas fa-redo"></i> Sıfırla</button>
+                        <button id="startBtn" class="btn btn-large btn-play">
+                            <i class="fas fa-play"></i> Başla
+                        </button>
+                        <button id="pauseBtn" class="btn btn-large btn-pause" style="display: none;">
+                            <i class="fas fa-pause"></i> Duraklat
+                        </button>
+                        <button id="skipBtn" class="btn btn-secondary">
+                            <i class="fas fa-forward"></i> Atla
+                        </button>
+                        <button id="resetBtn" class="btn btn-secondary">
+                            <i class="fas fa-redo"></i> Sıfırla
+                        </button>
                     </div>
+
+                    <!-- Ayarlar -->
                     <div class="settings-section">
                         <h3><i class="fas fa-sliders-h"></i> Ayarlar</h3>
                         <div class="settings-grid">
@@ -68,15 +81,21 @@
                 </div>
             </div>
 
+            <!-- Sağ Panel - Görevler ve İstatistikler -->
             <div class="right-panel">
+                <!-- Görev Listesi -->
                 <div class="tasks-card">
                     <h3><i class="fas fa-tasks"></i> Görevler</h3>
                     <div class="task-input-group">
                         <input type="text" id="taskInput" placeholder="Yapılacak görev ekle..." class="task-input">
-                        <button id="addTaskBtn" class="btn btn-add"><i class="fas fa-plus"></i></button>
+                        <button id="addTaskBtn" class="btn btn-add">
+                            <i class="fas fa-plus"></i>
+                        </button>
                     </div>
                     <ul class="tasks-list" id="tasksList"></ul>
                 </div>
+
+                <!-- İstatistikler -->
                 <div class="stats-card">
                     <h3><i class="fas fa-chart-bar"></i> Bugünkü İstatistikler</h3>
                     <div class="stats-grid">
@@ -110,25 +129,62 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Haftalık Özet -->
                 <div class="weekly-card">
                     <h3><i class="fas fa-calendar"></i> Haftalık Özet</h3>
-                    <div class="weekly-bars" id="weeklyBars"></div>
+                    <div class="weekly-bars">
+                        <div class="day-bar">
+                            <div class="bar-label">Pzt</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="height: 60%;"></div>
+                            </div>
+                        </div>
+                        <div class="day-bar">
+                            <div class="bar-label">Sal</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="height: 75%;"></div>
+                            </div>
+                        </div>
+                        <div class="day-bar">
+                            <div class="bar-label">Çar</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="height: 45%;"></div>
+                            </div>
+                        </div>
+                        <div class="day-bar">
+                            <div class="bar-label">Perş</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="height: 90%;"></div>
+                            </div>
+                        </div>
+                        <div class="day-bar">
+                            <div class="bar-label">Cum</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="height: 55%;"></div>
+                            </div>
+                        </div>
+                        <div class="day-bar">
+                            <div class="bar-label">Cmt</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="height: 70%;"></div>
+                            </div>
+                        </div>
+                        <div class="day-bar">
+                            <div class="bar-label">Paz</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="height: 40%;"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <button id="openTestBtn" class="floating-btn"><i class="fas fa-brain"></i> Odak Testi</button>
-    <div id="testModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2><i class="fas fa-clipboard-check"></i> Odaklanma Seviyesi Testi</h2>
-            <div id="testContainer">
-                <p>Bugün odaklanma kapasiteni ölçmek ister misin?</p>
-                <button class="btn btn-play" id="startTestInner">Teste Başla</button>
-            </div>
-        </div>
-    </div>
+    <audio id="notificationSound">
+        <source src="data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAAB9AAACABAAZGF0YQIAAAAAAA==" type="audio/wav">
+    </audio>
 
     <script src="script.js"></script>
 </body>

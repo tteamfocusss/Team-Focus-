@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel — Team Focus</title>
+    <meta name="description" content="Team Focus kontrol paneli — Pomodoro zamanlayıcı, görevler, sohbet ve istatistikler.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: flex;">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Toast Bildirimleri -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <span class="logo-icon">🚀</span>
+                <span>Team Focus</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="active">
+                    <i class="fas fa-th-large"></i>
+                    <span>Panel</span>
+                </a>
+                <a href="#timerSection" onclick="scrollToSection('timerSection')">
+                    <i class="fas fa-clock"></i>
+                    <span>Zamanlayıcı</span>
+                </a>
+                <a href="#chatSection" onclick="scrollToSection('chatSection')">
+                    <i class="fas fa-comments"></i>
+                    <span>Sohbet</span>
+                </a>
+                <a href="#tasksSection" onclick="scrollToSection('tasksSection')">
+                    <i class="fas fa-tasks"></i>
+                    <span>Görevler</span>
+                </a>
+                <a href="#statsSection" onclick="scrollToSection('statsSection')">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>İstatistikler</span>
+                </a>
+                <a href="#leaderboardSection" onclick="scrollToSection('leaderboardSection')">
+                    <i class="fas fa-trophy"></i>
+                    <span>Liderlik</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar" id="userAvatar">K</div>
+                    <div class="user-info">
+                        <div class="user-name" id="userName">Yükleniyor...</div>
+                        <div class="user-email" id="userEmail">...</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="panel-main">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <h1>🎯 Kontrol Paneli</h1>
+                <div class="top-bar-actions">
+                    <button class="btn btn-icon btn-ghost" id="themeToggle" title="Tema Değiştir">
+                        <i class="fas fa-sun" id="themeIcon"></i>
+                    </button>
+                    <div class="profile-btn" id="profileBtn">
+                        <div class="avatar" id="userAvatarTop">K</div>
+                        <span id="userNameTop" style="font-size: 0.9rem; font-weight: 600;">Kullanıcı</span>
+                        <i class="fas fa-chevron-down" style="font-size: 0.7rem; color: var(--text-muted);"></i>
+                        
+                        <!-- Dropdown -->
+                        <div class="profile-dropdown" id="profileDropdown">
+                            <a href="index.html">
+                                <i class="fas fa-home"></i> Ana Sayfa
+                            </a>
+                            <button id="logoutBtn" class="danger">
+                                <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- Sol Alan -->
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    
+                    <!-- Timer Kartı -->
+                    <div class="card timer-card" id="timerSection">
+                        <div class="card-header">
+                            <h3><i class="fas fa-clock"></i> Odaklanma Zamanı</h3>
+                        </div>
+                        
+                        <div class="session-label session-work" id="sessionLabel">💪 Odaklanma Zamanı</div>
+                        
+                        <div class="timer-circle" id="timerCircle">
+                            <svg viewBox="0 0 200 200">
+                                <defs>
+                                    <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#7c3aed"/>
+                                        <stop offset="100%" style="stop-color:#3b82f6"/>
+                                    </linearGradient>
+                                </defs>
+                                <circle cx="100" cy="100" r="90" class="circle-background"/>
+                                <circle cx="100" cy="100" r="90" class="circle-progress" id="circleProgress"/>
+                            </svg>
+                            <div class="timer-display">
+                                <div class="time" id="time">25:00</div>
+                                <div class="time-label">DAKİKA</div>
+                            </div>
+                        </div>
+
+                        <div class="timer-controls">
+                            <button id="startBtn" class="btn btn-play">
+                                <i class="fas fa-play"></i> Başlat
+                            </button>
+                            <button id="pauseBtn" class="btn btn-pause" style="display: none;">
+                                <i class="fas fa-pause"></i> Duraklat
+                            </button>
+                            <div class="timer-secondary-btns">
+                                <button id="skipBtn" class="btn btn-secondary">
+                                    <i class="fas fa-forward"></i> Atla
+                                </button>
+                                <button id="resetBtn" class="btn btn-secondary">
+                                    <i class="fas fa-redo"></i> Sıfırla
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Süre Ayarları -->
+                        <div class="settings-section">
+                            <div class="card-header" style="margin-bottom: 12px;">
+                                <h3 style="font-size: 0.95rem;"><i class="fas fa-sliders-h"></i> Süre Ayarları</h3>
+                            </div>
+                            <div class="settings-grid">
+                                <div class="setting-item">
+                                    <label>Çalışma</label>
+                                    <div class="input-group">
+                                        <button class="btn-adjust" id="workMinus">−</button>
+                                        <input type="number" id="workDuration" min="1" max="60" value="25">
+                                        <button class="btn-adjust" id="workPlus">+</button>
+                                    </div>
+                                </div>
+                                <div class="setting-item">
+                                    <label>Mola</label>
+                                    <div class="input-group">
+                                        <button class="btn-adjust" id="breakMinus">−</button>
+                                        <input type="number" id="breakDuration" min="1" max="30" value="5">
+                                        <button class="btn-adjust" id="breakPlus">+</button>
+                                    </div>
+                                </div>
+                                <div class="setting-item">
+                                    <label>U. Mola</label>
+                                    <div class="input-group">
+                                        <button class="btn-adjust" id="longBreakMinus">−</button>
+                                        <input type="number" id="longBreakDuration" min="1" max="60" value="15">
+                                        <button class="btn-adjust" id="longBreakPlus">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Görevler Kartı -->
+                    <div class="card tasks-card" id="tasksSection">
+                        <div class="card-header">
+                            <h3><i class="fas fa-tasks"></i> Görevlerim</h3>
+                        </div>
+                        <div class="task-input-group">
+                            <input type="text" id="taskInput" class="task-input" 
+                                   placeholder="Yeni görev ekle..." autocomplete="off">
+                            <button id="addTaskBtn" class="btn-add">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <ul class="tasks-list" id="tasksList"></ul>
+                    </div>
+
+                    <!-- İstatistikler Kartı -->
+                    <div class="card" id="statsSection">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-bar"></i> Bugünkü İstatistikler</h3>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-icon">🍅</div>
+                                <div>
+                                    <div class="stat-value" id="completedToday">0</div>
+                                    <div class="stat-label">Pomodoro</div>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">⏱️</div>
+                                <div>
+                                    <div class="stat-value" id="totalWorkTime">0dk</div>
+                                    <div class="stat-label">Çalışma</div>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">☕</div>
+                                <div>
+                                    <div class="stat-value" id="totalBreakTime">0dk</div>
+                                    <div class="stat-label">Mola</div>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">🔥</div>
+                                <div>
+                                    <div class="stat-value" id="streak">0</div>
+                                    <div class="stat-label">Seri</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Haftalık Özet -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-calendar-week"></i> Haftalık Özet</h3>
+                        </div>
+                        <div class="weekly-bars">
+                            <div class="day-bar">
+                                <div class="bar-container">
+                                    <div class="bar-fill" style="height: 5%;"></div>
+                                </div>
+                                <div class="bar-label">Pzt</div>
+                            </div>
+                            <div class="day-bar">
+                                <div class="bar-container">
+                                    <div class="bar-fill" style="height: 5%;"></div>
+                                </div>
+                                <div class="bar-label">Sal</div>
+                            </div>
+                            <div class="day-bar">
+                                <div class="bar-container">
+                                    <div class="bar-fill" style="height: 5%;"></div>
+                                </div>
+                                <div class="bar-label">Çar</div>
+                            </div>
+                            <div class="day-bar">
+                                <div class="bar-container">
+                                    <div class="bar-fill" style="height: 5%;"></div>
+                                </div>
+                                <div class="bar-label">Per</div>
+                            </div>
+                            <div class="day-bar">
+                                <div class="bar-container">
+                                    <div class="bar-fill" style="height: 5%;"></div>
+                                </div>
+                                <div class="bar-label">Cum</div>
+                            </div>
+                            <div class="day-bar">
+                                <div class="bar-container">
+                                    <div class="bar-fill" style="height: 5%;"></div>
+                                </div>
+                                <div class="bar-label">Cmt</div>
+                            </div>
+                            <div class="day-bar">
+                                <div class="bar-container">
+                                    <div class="bar-fill" style="height: 5%;"></div>
+                                </div>
+                                <div class="bar-label">Paz</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sağ Alan -->
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    
+                    <!-- Sohbet Kartı -->
+                    <div class="card chat-card" id="chatSection">
+                        <div class="card-header">
+                            <h3><i class="fas fa-comments"></i> Grup Sohbeti</h3>
+                            <div style="width: 8px; height: 8px; background: var(--accent-green); border-radius: 50%;"></div>
+                        </div>
+                        
+                        <div class="chat-room-selector">
+                            <select id="roomSelector"></select>
+                        </div>
+
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="chat-loading">
+                                <div class="spinner-small"></div> Bağlanıyor...
+                            </div>
+                        </div>
+
+                        <div class="chat-input-group">
+                            <input type="text" id="messageInput" placeholder="Mesajınızı yazın..." autocomplete="off">
+                            <button class="btn-send" id="sendMessageBtn">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Liderlik Tablosu -->
+                    <div class="card" id="leaderboardSection">
+                        <div class="card-header">
+                            <h3><i class="fas fa-trophy"></i> Liderlik Tablosu</h3>
+                        </div>
+                        <div class="leaderboard-list" id="leaderboardList">
+                            <div class="empty-state">
+                                <i class="fas fa-trophy"></i>
+                                <p>Henüz veri yok</p>
+                                <span>Pomodoro tamamlayarak sıralamaya girin!</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        // Bölüme kaydırma
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Loading ekranını kaldır
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loadingOverlay').style.display = 'none';
+            }, 1500);
+        });
+
+        // Sidebar aktif link
+        document.querySelectorAll('.sidebar-nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Auth state kontrolü - profil güncelle
+        const checkProfile = setInterval(() => {
+            if (typeof authManager !== 'undefined' && authManager.currentUser) {
+                const user = authManager.currentUser;
+                const nameTop = document.getElementById('userNameTop');
+                const avatarTop = document.getElementById('userAvatarTop');
+                
+                if (nameTop) nameTop.textContent = user.displayName || 'Kullanıcı';
+                if (avatarTop) {
+                    if (user.photoURL) {
+                        avatarTop.innerHTML = `<img src="${user.photoURL}" alt="${user.displayName}">`;
+                    } else {
+                        avatarTop.textContent = (user.displayName || 'K')[0].toUpperCase();
+                    }
+                }
+                clearInterval(checkProfile);
+            }
+        }, 500);
+    </script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Yap — Team Focus</title>
+    <meta name="description" content="Team Focus hesabınıza giriş yapın veya yeni hesap oluşturun.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Toast Bildirimleri -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <div class="auth-page">
+        <div class="auth-container">
+            <!-- Logo & Back Link -->
+            <div style="text-align: center; margin-bottom: 20px;">
+                <a href="index.html" class="btn btn-ghost" style="margin-bottom: 16px;">
+                    <i class="fas fa-arrow-left"></i> Ana Sayfa
+                </a>
+            </div>
+
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="logo">
+                        <span class="logo-icon">🚀</span>
+                        <span>Team Focus</span>
+                    </div>
+                    <h2 id="authTitle">Hoş Geldiniz</h2>
+                    <p id="authSubtitle">Hesabınıza giriş yapın</p>
+                </div>
+
+                <!-- Giriş/Kayıt Tabs -->
+                <div class="auth-tabs">
+                    <button class="auth-tab active" id="loginTab" onclick="switchTab('login')">
+                        Giriş Yap
+                    </button>
+                    <button class="auth-tab" id="registerTab" onclick="switchTab('register')">
+                        Kayıt Ol
+                    </button>
+                </div>
+
+                <!-- Giriş Formu -->
+                <form id="loginForm" class="auth-form" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="loginEmail">E-posta</label>
+                        <input type="email" id="loginEmail" class="form-input" 
+                               placeholder="ornek@email.com" required autocomplete="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Şifre</label>
+                        <input type="password" id="loginPassword" class="form-input" 
+                               placeholder="••••••••" required autocomplete="current-password" minlength="6">
+                    </div>
+                    <button type="button" class="form-link" onclick="handleForgotPassword()">
+                        Şifremi unuttum
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-large" style="width: 100%;">
+                        <i class="fas fa-sign-in-alt"></i> Giriş Yap
+                    </button>
+                </form>
+
+                <!-- Kayıt Formu -->
+                <form id="registerForm" class="auth-form" style="display: none;" onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label for="registerName">Ad Soyad</label>
+                        <input type="text" id="registerName" class="form-input" 
+                               placeholder="Adınız Soyadınız" required autocomplete="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">E-posta</label>
+                        <input type="email" id="registerEmail" class="form-input" 
+                               placeholder="ornek@email.com" required autocomplete="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Şifre</label>
+                        <input type="password" id="registerPassword" class="form-input" 
+                               placeholder="En az 6 karakter" required autocomplete="new-password" minlength="6">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-large" style="width: 100%;">
+                        <i class="fas fa-user-plus"></i> Kayıt Ol
+                    </button>
+                </form>
+
+                <!-- Veya -->
+                <div class="auth-divider">veya</div>
+
+                <!-- Google ile Giriş -->
+                <button class="btn btn-google btn-large" style="width: 100%;" onclick="handleGoogleLogin()">
+                    <svg width="20" height="20" viewBox="0 0 24 24">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                    </svg>
+                    Google ile Devam Et
+                </button>
+            </div>
+
+            <p style="text-align: center; margin-top: 20px; font-size: 0.85rem; color: var(--text-muted);">
+                Devam ederek 
+                <a href="#" style="color: var(--accent-purple-light);">Kullanım Koşulları</a>'nı 
+                kabul etmiş olursunuz.
+            </p>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        // Tab değiştirme
+        function switchTab(tab) {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const loginTab = document.getElementById('loginTab');
+            const registerTab = document.getElementById('registerTab');
+            const title = document.getElementById('authTitle');
+            const subtitle = document.getElementById('authSubtitle');
+
+            if (tab === 'login') {
+                loginForm.style.display = 'flex';
+                registerForm.style.display = 'none';
+                loginTab.classList.add('active');
+                registerTab.classList.remove('active');
+                title.textContent = 'Hoş Geldiniz';
+                subtitle.textContent = 'Hesabınıza giriş yapın';
+            } else {
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'flex';
+                registerTab.classList.add('active');
+                loginTab.classList.remove('active');
+                title.textContent = 'Hesap Oluşturun';
+                subtitle.textContent = 'Ücretsiz kayıt olun';
+            }
+        }
+
+        // Giriş
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            try {
+                await authManager.login(email, password);
+                // Auth state listener yönlendirecek
+            } catch (error) {
+                // Hata authManager tarafından gösteriliyor
+            }
+        }
+
+        // Kayıt
+        async function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            
+            try {
+                await authManager.register(email, password, name);
+                // Auth state listener yönlendirecek
+            } catch (error) {
+                // Hata authManager tarafından gösteriliyor
+            }
+        }
+
+        // Google giriş
+        async function handleGoogleLogin() {
+            try {
+                await authManager.loginWithGoogle();
+            } catch (error) {
+                // Hata authManager tarafından gösteriliyor
+            }
+        }
+
+        // Şifre sıfırlama
+        function handleForgotPassword() {
+            const email = document.getElementById('loginEmail').value;
+            if (!email) {
+                authManager.showToast('⚠️ Lütfen önce e-posta adresinizi girin', 'warning');
+                document.getElementById('loginEmail').focus();
+                return;
+            }
+            authManager.resetPassword(email);
+        }
+    </script>
+</body>
+</html>

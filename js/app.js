@@ -147,6 +147,17 @@ class TeamFocusApp {
             logoutBtn.addEventListener('click', () => authManager.logout());
         }
 
+        // Hesabı sil butonu
+        const deleteAccountBtn = document.getElementById('deleteAccountBtn');
+        if (deleteAccountBtn) {
+            deleteAccountBtn.addEventListener('click', () => {
+                const confirmed = confirm("Hesabınızı ve tüm verilerinizi kalıcı olarak silmek istediğinize emin misiniz? Bu işlem geri alınamaz!");
+                if (confirmed) {
+                    authManager.deleteAccount();
+                }
+            });
+        }
+
         // Profil menüsü
         const profileBtn = document.getElementById('profileBtn');
         const profileDropdown = document.getElementById('profileDropdown');

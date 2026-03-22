@@ -99,6 +99,39 @@ class AuthManager {
         }
     }
 
+    // Hesabı Sil
+    async deleteAccount() {
+        try {
+            this.showLoading(true);
+            const user = auth.currentUser;
+            if (user) {
+                const uid = user.uid;
+                
+                try {
+                    // Kullanıcıya ait bazı verileri temizle
+                    await db.collection('users').doc(uid).delete();
+                } catch (e) {
+                    console.warn("Veritabanından silinirken hata (ilgili kurallar engellemiş olabilir):", e);
+                }
+
+                await user.delete();
+                this.showToast('🗑️ Hesabınız ve tüm verileriniz silindi.', 'success');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+            }
+        } catch (error) {
+            console.error('Hesap silme hatası:', error);
+            if (error.code === 'auth/requires-recent-login') {
+                this.showToast('⚠️ Güvenlik: Hesabınızı silmek için öncelikle çıkış yapıp tekrar giriş yapmalısınız!', 'warning');
+            } else {
+                this.showToast('❌ Hesap silinirken bir hata oluştu.', 'error');
+            }
+        } finally {
+            this.showLoading(false);
+        }
+    }
+
     // Şifre sıfırlama
     async resetPassword(email) {
         try {

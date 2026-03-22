@@ -67,10 +67,13 @@ class ChatManager {
 
         if (customRoomBtn) {
             customRoomBtn.addEventListener('click', () => {
-                const roomName = prompt("Katılmak veya kurmak istediğiniz odanın adını girin (Örn: EkipCalismasi):");
-                if (roomName && roomName.trim() !== '') {
+                const roomInput = document.getElementById('customRoomInput');
+                if (!roomInput) return;
+                
+                const roomName = roomInput.value.trim();
+                if (roomName !== '') {
                     // Güvenli ID oluştur: Türkçe karakterleri temizle, küçük harf yap
-                    let safeRoomId = roomName.trim().toLowerCase()
+                    let safeRoomId = roomName.toLowerCase()
                         .replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's')
                         .replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c')
                         .replace(/[^a-z0-9-]/g, '');
@@ -87,12 +90,16 @@ class ChatManager {
                         if (selector) selector.value = safeRoomId;
                         
                         this.joinRoom(safeRoomId);
+                        roomInput.value = ''; // Kutuyu temizle
+                        
                         if(typeof authManager !== 'undefined') {
-                            authManager.showToast(`🚪 '${roomName}' odasına giriş yapıldı. Bu oda adını arkadaşlarınıza vererek aynı sohbet kanalında buluşabilirsiniz!`, 'success');
+                            authManager.showToast(`🚪 '${roomName}' odasına giriş yapıldı! Girmeye hazır.`, 'success');
                         }
                     } else {
                         if(typeof authManager !== 'undefined') authManager.showToast('⚠️ Geçersiz oda adı!', 'warning');
                     }
+                } else {
+                    if(typeof authManager !== 'undefined') authManager.showToast('⚠️ Oda adı girmediniz.', 'warning');
                 }
             });
         }

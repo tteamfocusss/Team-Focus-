@@ -285,11 +285,14 @@
                             <div style="width: 8px; height: 8px; background: var(--accent-green); border-radius: 50%;"></div>
                         </div>
                         
-                        <div class="chat-room-selector" style="display: flex; gap: 8px;">
-                            <select id="roomSelector" style="flex: 1;"></select>
-                            <button class="btn btn-secondary btn-icon" id="customRoomBtn" title="Özel Oda Kur/Katıl">
-                                <i class="fas fa-plus"></i>
-                            </button>
+                        <div class="chat-room-selector" style="display: flex; flex-direction: column; gap: 8px;">
+                            <select id="roomSelector" style="width: 100%;"></select>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="text" id="customRoomInput" placeholder="Özel oda adı yazıp katıl..." class="form-input" style="padding: 8px 12px; flex: 1; font-size: 0.85rem; height: 36px;">
+                                <button class="btn btn-secondary btn-icon" id="customRoomBtn" title="Odaya Katıl" style="width: 36px; height: 36px;">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                </button>
+                            </div>
                         </div>
 
                         <div class="chat-messages" id="chatMessages">

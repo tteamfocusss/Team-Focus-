@@ -6,21 +6,21 @@
 
 /* ============ CSS DEĞİŞKENLERİ ============ */
 :root {
-    /* Renkler - Koyu Tema */
-    --bg-primary: #0a0a1a;
-    --bg-secondary: #12122a;
+    /* Renkler - Koyu Tema (Turuncu/Siyah) */
+    --bg-primary: #000000;
+    --bg-secondary: #111111;
     --bg-card: rgba(255, 255, 255, 0.04);
     --bg-card-hover: rgba(255, 255, 255, 0.07);
     --bg-glass: rgba(255, 255, 255, 0.06);
-    --border-color: rgba(255, 255, 255, 0.08);
-    --border-glow: rgba(124, 58, 237, 0.3);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --border-glow: rgba(255, 107, 0, 0.3);
 
-    --text-primary: #f0f0f5;
-    --text-secondary: #9ca3af;
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
     --text-muted: #6b7280;
 
-    --accent-purple: #7c3aed;
-    --accent-purple-light: #a78bfa;
+    --accent-purple: #ff6b00; /* Asıl Tema Rengi (Turuncu) */
+    --accent-purple-light: #ff8533;
     --accent-blue: #3b82f6;
     --accent-cyan: #06b6d4;
     --accent-green: #10b981;
@@ -28,16 +28,16 @@
     --accent-orange: #f59e0b;
     --accent-pink: #ec4899;
 
-    --gradient-primary: linear-gradient(135deg, #7c3aed, #3b82f6);
+    --gradient-primary: linear-gradient(135deg, #ff6b00, #ff8533);
     --gradient-secondary: linear-gradient(135deg, #06b6d4, #10b981);
-    --gradient-warm: linear-gradient(135deg, #f59e0b, #ef4444);
-    --gradient-cool: linear-gradient(135deg, #7c3aed, #ec4899);
-    --gradient-bg: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0a1628 100%);
+    --gradient-warm: linear-gradient(135deg, #ff6b00, #ef4444);
+    --gradient-cool: linear-gradient(135deg, #ff6b00, #ec4899);
+    --gradient-bg: linear-gradient(135deg, #000000 0%, #111111 50%, #050505 100%);
 
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
     --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
     --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
-    --shadow-glow: 0 0 30px rgba(124, 58, 237, 0.15);
+    --shadow-glow: 0 0 30px rgba(255, 107, 0, 0.15);
 
     --radius-sm: 8px;
     --radius-md: 12px;
@@ -140,7 +140,7 @@ img {
 .spinner {
     width: 50px;
     height: 50px;
-    border: 3px solid rgba(124, 58, 237, 0.2);
+    border: 3px solid rgba(255, 107, 0, 0.2);
     border-top-color: var(--accent-purple);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
@@ -149,7 +149,7 @@ img {
 .spinner-small {
     width: 20px;
     height: 20px;
-    border: 2px solid rgba(124, 58, 237, 0.2);
+    border: 2px solid rgba(255, 107, 0, 0.2);
     border-top-color: var(--accent-purple);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
@@ -250,12 +250,12 @@ img {
 .btn-primary {
     background: var(--gradient-primary);
     color: white;
-    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+    box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(124, 58, 237, 0.5);
+    box-shadow: 0 6px 25px rgba(255, 107, 0, 0.5);
 }
 
 .btn-secondary {
@@ -311,12 +311,12 @@ img {
     color: white;
     padding: 16px;
     font-size: 1.1rem;
-    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+    box-shadow: 0 4px 20px rgba(255, 107, 0, 0.3);
 }
 
 .btn-play:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(124, 58, 237, 0.5);
+    box-shadow: 0 8px 30px rgba(255, 107, 0, 0.5);
 }
 
 .btn-pause {
@@ -412,7 +412,7 @@ img {
     position: absolute;
     width: 600px;
     height: 600px;
-    background: radial-gradient(circle, rgba(124, 58, 237, 0.15), transparent 70%);
+    background: radial-gradient(circle, rgba(255, 107, 0, 0.15), transparent 70%);
     top: -100px;
     right: -100px;
     border-radius: 50%;
@@ -619,7 +619,7 @@ img {
     margin-bottom: 20px;
 }
 
-.feature-icon.purple { background: rgba(124, 58, 237, 0.15); color: var(--accent-purple); }
+.feature-icon.purple { background: rgba(255, 107, 0, 0.15); color: var(--accent-purple); }
 .feature-icon.blue { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); }
 .feature-icon.green { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); }
 .feature-icon.orange { background: rgba(245, 158, 11, 0.15); color: var(--accent-orange); }
@@ -720,7 +720,7 @@ img {
     position: absolute;
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, rgba(124, 58, 237, 0.12), transparent 70%);
+    background: radial-gradient(circle, rgba(255, 107, 0, 0.12), transparent 70%);
     top: -100px;
     right: -50px;
     border-radius: 50%;

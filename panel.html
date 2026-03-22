@@ -21,7 +21,7 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-logo">
-                <span class="logo-icon">🚀</span>
+                <img src="TF1.jpeg" alt="Team Focus" class="logo-icon" style="width: 32px; height: 32px; border-radius: 8px; object-fit: contain; margin-right: 8px;">
                 <span>Team Focus</span>
             </div>
 
@@ -285,8 +285,11 @@
                             <div style="width: 8px; height: 8px; background: var(--accent-green); border-radius: 50%;"></div>
                         </div>
                         
-                        <div class="chat-room-selector">
-                            <select id="roomSelector"></select>
+                        <div class="chat-room-selector" style="display: flex; gap: 8px;">
+                            <select id="roomSelector" style="flex: 1;"></select>
+                            <button class="btn btn-secondary btn-icon" id="customRoomBtn" title="Özel Oda Kur/Katıl">
+                                <i class="fas fa-plus"></i>
+                            </button>
                         </div>
 
                         <div class="chat-messages" id="chatMessages">

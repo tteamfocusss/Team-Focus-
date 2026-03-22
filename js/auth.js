@@ -5,6 +5,7 @@
 class AuthManager {
     constructor() {
         this.currentUser = null;
+        this.isDeleting = false; // Hesap siliniyor bayrağı
         this.onAuthStateChanged();
     }
 
@@ -31,6 +32,9 @@ class AuthManager {
                 }
             } else {
                 this.currentUser = null;
+                // Hesap siliniyorken otomatik yönlendirme yapma, beklet
+                if (this.isDeleting) return;
+
                 // Panel sayfasındaysa giriş sayfasına yönlendir
                 if (window.location.pathname.includes('panel.html')) {
                     window.location.href = 'giris.html';
@@ -103,6 +107,8 @@ class AuthManager {
     async deleteAccount() {
         try {
             this.showLoading(true);
+            this.isDeleting = true; // Yönlendirmeyi geçici olarak durdur
+            
             const user = auth.currentUser;
             if (user) {
                 const uid = user.uid;
@@ -115,15 +121,17 @@ class AuthManager {
                 }
 
                 await user.delete();
-                this.showToast('🗑️ Hesabınız ve tüm verileriniz silindi.', 'success');
+                
+                this.showToast('🗑️ Hesabınız ve tüm verileriniz kalıcı olarak silindi. Ana sayfaya yönlendiriliyorsunuz.', 'success');
                 setTimeout(() => {
                     window.location.href = 'index.html';
-                }, 2000);
+                }, 3000);
             }
         } catch (error) {
+            this.isDeleting = false; // Hata olursa bayrağı kaldır
             console.error('Hesap silme hatası:', error);
             if (error.code === 'auth/requires-recent-login') {
-                this.showToast('⚠️ Güvenlik: Hesabınızı silmek için öncelikle çıkış yapıp tekrar giriş yapmalısınız!', 'warning');
+                this.showToast('⚠️ Güvenlik: Hesabınızı silmek için profilinizden çıkış yapıp tekrar giriş yapmalısınız.', 'warning');
             } else {
                 this.showToast('❌ Hesap silinirken bir hata oluştu.', 'error');
             }
